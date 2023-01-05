@@ -7,7 +7,7 @@ import axios, {AxiosResponse} from "axios";
 admin.initializeApp(functions.config().firebase);
 
 const instance = axios.create({
-    baseURL: 'https://sop-quotes-api.herokuapp.com/',
+    baseURL: 'https://sop-quotes.deta.dev/',
     timeout: 15000,
     headers: {
         'Content-type': 'application/json',
@@ -16,12 +16,13 @@ const instance = axios.create({
 });
 
 //send daily push notification with london timezone at 12:40pm
-exports.sendDailyPushNotification = functions.pubsub.schedule('45 6 * * *')
+exports.sendDailyPushNotification = functions.pubsub.schedule('45 7 * * *')
     .timeZone('Africa/Abidjan')
     .onRun(async () => {
         try {
             const quote = await getRandomQuote();
             const topic = 'DAILY_RANDOM_QUOTE_TOPIC'
+            // const topic = 'MY_CUSTOM_TEST_TOPIC'
 
             if (quote) {
                 const payload = {
